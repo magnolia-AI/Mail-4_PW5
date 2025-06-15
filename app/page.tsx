@@ -63,7 +63,7 @@ export default function Home() {
                 Premium Hat Collection
               </Badge>
               <h1 className="text-5xl font-bold tracking-tight lg:text-7xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-                Elevate
+                Elevate your head game
               </h1>
               <p className="mt-6 text-xl text-muted-foreground max-w-[600px] mx-auto leading-relaxed">
                 Discover our curated collection of premium hats. From classic baseball caps to elegant fedoras, find the perfect hat for every occasion.
