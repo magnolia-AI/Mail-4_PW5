@@ -14,19 +14,12 @@ import Link from 'next/link';
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [filteredProducts, setFilteredProducts] = useState(products);
-  const [isLoading, setIsLoading] = useState(true);
   const { dispatch } = useCart();
   const { toast } = useToast();
 
   useEffect(() => {
     setFilteredProducts(getProductsByCategory(selectedCategory));
   }, [selectedCategory]);
-
-  useEffect(() => {
-    // Simulate loading for smooth animations
-    const timer = setTimeout(() => setIsLoading(false), 500);
-    return () => clearTimeout(timer);
-  }, []);
 
   const addToCart = (product: any, size?: string, color?: string) => {
     dispatch({
@@ -42,14 +35,6 @@ export default function Home() {
       description: `${product.name} has been added to your cart.`
     });
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">Enter email por favor
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>Enter email por favor
-      </div>);
-
-  }
 
   return (
     <div className="min-h-full">
