@@ -45,8 +45,8 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center">Enter email por favor
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>Enter email por favor
       </div>);
 
   }
