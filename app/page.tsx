@@ -1,54 +1,54 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { ShoppingCart, Star, Filter } from 'lucide-react'
-import { products, categories, formatPrice, getProductsByCategory } from '@/lib/products'
-import { useCart } from '@/lib/cart-context'
-import { useToast } from '@/hooks/use-toast'
-import Link from 'next/link'
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ShoppingCart, Star, Filter } from 'lucide-react';
+import { products, categories, formatPrice, getProductsByCategory } from '@/lib/products';
+import { useCart } from '@/lib/cart-context';
+import { useToast } from '@/hooks/use-toast';
+import Link from 'next/link';
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState('All')
-  const [filteredProducts, setFilteredProducts] = useState(products)
-  const [isLoading, setIsLoading] = useState(true)
-  const { dispatch } = useCart()
-  const { toast } = useToast()
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [isLoading, setIsLoading] = useState(true);
+  const { dispatch } = useCart();
+  const { toast } = useToast();
 
   useEffect(() => {
-    setFilteredProducts(getProductsByCategory(selectedCategory))
-  }, [selectedCategory])
+    setFilteredProducts(getProductsByCategory(selectedCategory));
+  }, [selectedCategory]);
 
   useEffect(() => {
     // Simulate loading for smooth animations
-    const timer = setTimeout(() => setIsLoading(false), 500)
-    return () => clearTimeout(timer)
-  }, [])
+    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const addToCart = (product: any, size?: string, color?: string) => {
-    dispatch({ 
-      type: 'ADD_ITEM', 
-      payload: { 
-        product, 
-        size: size || product.sizes[0], 
-        color: color || product.colors[0] 
-      } 
-    })
+    dispatch({
+      type: 'ADD_ITEM',
+      payload: {
+        product,
+        size: size || product.sizes[0],
+        color: color || product.colors[0]
+      }
+    });
     toast({
       title: "Added to cart!",
-      description: `${product.name} has been added to your cart.`,
-    })
-  }
+      description: `${product.name} has been added to your cart.`
+    });
+  };
 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-      </div>
-    )
+      </div>);
+
   }
 
   return (
@@ -63,7 +63,7 @@ export default function Home() {
                 Premium Hat Collection
               </Badge>
               <h1 className="text-5xl font-bold tracking-tight lg:text-7xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-                Elevate Your Style
+                Elevate
               </h1>
               <p className="mt-6 text-xl text-muted-foreground max-w-[600px] mx-auto leading-relaxed">
                 Discover our curated collection of premium hats. From classic baseball caps to elegant fedoras, find the perfect hat for every occasion.
@@ -93,11 +93,11 @@ export default function Home() {
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-              {categories.map((category) => (
-                <SelectItem key={category} value={category}>
+              {categories.map((category) =>
+              <SelectItem key={category} value={category}>
                   {category}
                 </SelectItem>
-              ))}
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -106,26 +106,26 @@ export default function Home() {
       {/* Products Grid */}
       <section className="container mx-auto px-4 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product, index) => (
-            <Card 
-              key={product.id} 
-              className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-card/50 backdrop-blur-sm"
-              style={{
-                animationDelay: `${index * 100}ms`,
-                animation: 'fade-in-up 0.6s ease-out forwards'
-              }}
-            >
+          {filteredProducts.map((product, index) =>
+          <Card
+            key={product.id}
+            className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-card/50 backdrop-blur-sm"
+            style={{
+              animationDelay: `${index * 100}ms`,
+              animation: 'fade-in-up 0.6s ease-out forwards'
+            }}>
+
               <div className="relative overflow-hidden">
                 <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+                src={product.image}
+                alt={product.name}
+                className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110" />
+
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <Badge 
-                  variant="secondary" 
-                  className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm"
-                >
+                <Badge
+                variant="secondary"
+                className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm">
+
                   {product.category}
                 </Badge>
                 <div className="absolute top-4 right-4 flex items-center gap-1 bg-background/90 backdrop-blur-sm rounded-full px-2 py-1">
@@ -150,37 +150,37 @@ export default function Home() {
                       {formatPrice(product.price)}
                     </span>
                     <div className="flex gap-1">
-                      {product.colors.slice(0, 3).map((color, i) => (
-                        <div
-                          key={i}
-                          className="w-4 h-4 rounded-full border-2 border-background shadow-sm"
-                          style={{
-                            backgroundColor: color.toLowerCase() === 'white' ? '#ffffff' : 
-                                           color.toLowerCase() === 'black' ? '#000000' :
-                                           color.toLowerCase() === 'navy' ? '#1e3a8a' :
-                                           color.toLowerCase() === 'red' ? '#dc2626' :
-                                           color.toLowerCase() === 'gray' ? '#6b7280' :
-                                           color.toLowerCase() === 'brown' ? '#92400e' :
-                                           color.toLowerCase() === 'olive' ? '#65a30d' :
-                                           color.toLowerCase() === 'khaki' ? '#a3a3a3' :
-                                           color.toLowerCase() === 'burgundy' ? '#7c2d12' :
-                                           color.toLowerCase() === 'cream' ? '#fef3c7' : '#6b7280'
-                          }}
-                        />
-                      ))}
-                      {product.colors.length > 3 && (
-                        <span className="text-xs text-muted-foreground ml-1">
+                      {product.colors.slice(0, 3).map((color, i) =>
+                    <div
+                      key={i}
+                      className="w-4 h-4 rounded-full border-2 border-background shadow-sm"
+                      style={{
+                        backgroundColor: color.toLowerCase() === 'white' ? '#ffffff' :
+                        color.toLowerCase() === 'black' ? '#000000' :
+                        color.toLowerCase() === 'navy' ? '#1e3a8a' :
+                        color.toLowerCase() === 'red' ? '#dc2626' :
+                        color.toLowerCase() === 'gray' ? '#6b7280' :
+                        color.toLowerCase() === 'brown' ? '#92400e' :
+                        color.toLowerCase() === 'olive' ? '#65a30d' :
+                        color.toLowerCase() === 'khaki' ? '#a3a3a3' :
+                        color.toLowerCase() === 'burgundy' ? '#7c2d12' :
+                        color.toLowerCase() === 'cream' ? '#fef3c7' : '#6b7280'
+                      }} />
+
+                    )}
+                      {product.colors.length > 3 &&
+                    <span className="text-xs text-muted-foreground ml-1">
                           +{product.colors.length - 3}
                         </span>
-                      )}
+                    }
                     </div>
                   </div>
                   
                   <div className="flex gap-2">
-                    <Button 
-                      className="flex-1 rounded-full hover:scale-105 transition-transform"
-                      onClick={() => addToCart(product)}
-                    >
+                    <Button
+                    className="flex-1 rounded-full hover:scale-105 transition-transform"
+                    onClick={() => addToCart(product)}>
+
                       <ShoppingCart className="h-4 w-4 mr-2" />
                       Add to Cart
                     </Button>
@@ -193,7 +193,7 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
-          ))}
+          )}
         </div>
       </section>
 
@@ -208,14 +208,14 @@ export default function Home() {
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-full border border-border bg-background"
-            />
+              className="flex-1 px-4 py-3 rounded-full border border-border bg-background" />
+
             <Button className="rounded-full px-8 hover:scale-105 transition-transform">
               Subscribe
             </Button>
           </div>
         </div>
       </section>
-    </div>
-  )
+    </div>);
+
 }
